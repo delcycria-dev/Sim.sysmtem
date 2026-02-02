@@ -1,0 +1,63 @@
+<div id="ui">
+    <details>
+        <summary>⚙️ Ajustes de Elite (A16)</summary>
+        <div class="controls">
+            <label>Sensibilidade Base: <span id="val-sens">1.8</span></label>
+            <input type="range" id="sens" min="0.5" max="5.0" step="0.1" value="1.8">
+            
+            <label>Suavização (Anti-Tremor): <span id="val-smooth">0.15</span></label>
+            <input type="range" id="smooth" min="0.05" max="0.5" step="0.01" value="0.15">
+            
+            <label>Força No Recoil (Y): <span id="val-recoil">1.2</span></label>
+            <input type="range" id="recoil" min="0" max="3.0" step="0.1" value="1.2">
+            
+            <label>Deadzone (Pixels): <span id="val-dead">3</span></label>
+            <input type="range" id="dead" min="0" max="10" step="1" value="3">
+        </div>
+    </details>
+    <p>Status: <span id="debug">Aguardando...</span></p>
+</div>
+
+<style>
+    #ui { 
+        position: absolute; top: 10px; left: 10px; 
+        background: rgba(0,0,0,0.8); padding: 10px; 
+        border-radius: 8px; color: #00ffcc; font-size: 12px;
+        z-index: 100; pointer-events: auto; /* Permite clicar nos sliders */
+    }
+    .controls { display: flex; flex-direction: column; gap: 5px; margin-top: 10px; }
+    input[type=range] { width: 150px; accent-color: #00ffcc; }
+    details summary { cursor: pointer; font-weight: bold; outline: none; }
+</style>
+// Referências da UI
+const inputs = {
+    sens: document.getElementById('sens'),
+    smooth: document.getElementById('smooth'),
+    recoil: document.getElementById('recoil'),
+    dead: document.getElementById('dead')
+};
+
+const labels = {
+    sens: document.getElementById('val-sens'),
+    smooth: document.getElementById('val-smooth'),
+    recoil: document.getElementById('val-recoil'),
+    dead: document.getElementById('val-dead')
+};
+
+// Escuta as mudanças nos Sliders
+inputs.sens.oninput = (e) => { 
+    CONFIG.baseSens = parseFloat(e.target.value); 
+    labels.sens.innerText = e.target.value; 
+};
+inputs.smooth.oninput = (e) => { 
+    smoother.factor = parseFloat(e.target.value); 
+    labels.smooth.innerText = e.target.value; 
+};
+inputs.recoil.oninput = (e) => { 
+    recoilSys.compensationStrength = parseFloat(e.target.value); 
+    labels.recoil.innerText = e.target.value; 
+};
+inputs.dead.oninput = (e) => { 
+    CONFIG.deadzone = parseInt(e.target.value); 
+    labels.dead.innerText = e.target.value; 
+};
